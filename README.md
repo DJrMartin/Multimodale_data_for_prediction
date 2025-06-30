@@ -4,7 +4,7 @@ This repository provides a comprehensive collection of multi-omics datasets---in
 
 ## Installation
 
-git clone <https://github.com/ton-nom-utilisateur/NomDuProjet.git>
+git clone <https://github.com/DJrMartin/Multimodale_data_for_prediction.git>
 
 Developed in **R**. Required packages:
 
@@ -59,7 +59,7 @@ This repository is made available under the [MIT License](LICENSE).
 
 If you use this resource in your research, please cite it as:
 
-> [Martin D. et al.] *Multi-omics spectral datasets in a murine model of liver dysfunctions*. GitHub Repository, [2025].
+> [Martin D. et al.] *Multi-omics spectral datasets in a murine model of liver dysfunctions*. <https://github.com/DJrMartin/Multimodale_data_for_prediction.git>, [2025].
 
 ## Contact
 
