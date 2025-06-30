@@ -1,4 +1,4 @@
-# Multi-omics benchmark spectral datasets in a murine model of liver
+# Multimodal data for predicting liver steatosis in mice
 
 This repository provides a comprehensive collection of multi-omics datasets---including metallomics, Raman spectroscopy, and mid-infrared (MIR) spectroscopy---acquired from a murine experiment, involving 100 mice divided into four experimental groups. This study aim to induce hepatic steatosis, fibrosis, and inflammation. These pathological states were then assessed through various omics-based analytical techniques.
 
