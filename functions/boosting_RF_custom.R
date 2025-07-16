@@ -1,7 +1,8 @@
 library(randomForest)
 library(Metrics)
 
-boosting_rf_cv <- function(response, datasets, folds = 5, p = 75, ntree = 100, seed = 123, maxnodes, mtry) {
+boosting_rf_cv <- function(response, datasets, folds = 5, p = 75, ntree = 100, seed = 123, maxnodes, mtry, 
+                           Selection = 1) {
   set.seed(seed)
   
   n <- length(response)
@@ -14,8 +15,8 @@ boosting_rf_cv <- function(response, datasets, folds = 5, p = 75, ntree = 100, s
   
   for (k in 1:folds) {
     train_idx <- createDataPartition(response, p = p, list=F)
-    test_idx <- setdiff(1:n, train_idx)
-     
+    test_idx <- setdiff(1:n, train_idx)  
+
     y_train <- response[train_idx]
     y_test <- response[test_idx]
     
@@ -26,17 +27,25 @@ boosting_rf_cv <- function(response, datasets, folds = 5, p = 75, ntree = 100, s
     rf_models <- list()
     predictions_train <- list()
     feature_importances_fold <- list()
+    Selvar = list()
+    
+    Selvar[[1]] = which(apply(train_sets[[1]], 2, function(x) cor.test(x, y_train, method = "pearson")$p.value) < Selection[1])
     
     # Modèle 1 sur le premier jeu de données
-    rf_models[[1]] <- randomForest(x = train_sets[[1]], y = y_train, ntree = ntree[1], maxnodes = maxnodes[1], mtry = mtry[1])
-    pred_train <- predict(rf_models[[1]], train_sets[[1]])
+    rf_models[[1]] <- randomForest(x = train_sets[[1]][, Selvar[[1]]], y = y_train, ntree = ntree[1], maxnodes = maxnodes[1], mtry = mtry[1])
+    
+    pred_train <- predict(rf_models[[1]], train_sets[[1]][, Selvar[[1]]])
     residuals <- y_train - pred_train
     feature_importances_fold[[1]] <- importance(rf_models[[1]])
     
     # Résidus par les autres jeux de données
     for (i in 2:length(datasets)) {
-      rf_models[[i]] <- randomForest(x = train_sets[[i]], y = residuals, ntree = ntree[i], maxnodes = maxnodes[i], mtry = mtry[i])
-      pred_res <- predict(rf_models[[i]], train_sets[[i]])
+      
+      Selvar[[i]] = which(apply(train_sets[[i]], 2, function(x) cor.test(x, y_train, method = "pearson")$p.value) < Selection[i])
+      
+      rf_models[[i]] <- randomForest(x = train_sets[[i]][, Selvar[[i]]], y = residuals, 
+                                     ntree = ntree[i], maxnodes = maxnodes[i], mtry = mtry[i])
+      pred_res <- predict(rf_models[[i]], train_sets[[i]][, Selvar[[i]]])
       residuals <- residuals - pred_res
       
       feature_importances_fold[[i]] <- importance(rf_models[[i]])
@@ -45,7 +54,7 @@ boosting_rf_cv <- function(response, datasets, folds = 5, p = 75, ntree = 100, s
     ### === Étape 2 : prédiction sur le jeu de test === ###
     final_pred <- rep(0, length(test_idx))
     for (i in 1:length(datasets)) {
-      final_pred <- final_pred + predict(rf_models[[i]], test_sets[[i]])
+      final_pred <- final_pred + predict(rf_models[[i]], test_sets[[i]][,Selvar[[i]]])
     }
     
     all_feature_importances[[k]] <- feature_importances_fold

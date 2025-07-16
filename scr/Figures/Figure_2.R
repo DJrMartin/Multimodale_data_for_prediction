@@ -74,6 +74,7 @@ d_metal <- density(metal.1$O)
 d_null <- density(metal.1$Null.distri)
 
 pdf(file = "figures/Figure_2B.pdf", width = 5, height = 4)
+par(mar=c(4,4,4,2))
 # Plot principal
 plot(d_mir, col = "black", lwd=2, ylim = c(0,8), xlim = c(-0.25, 0.6),
      main = "Mantel tests between\n serum markers and other data", axes = F, cex.main = 1,
