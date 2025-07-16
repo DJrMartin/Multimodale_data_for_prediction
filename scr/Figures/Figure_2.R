@@ -36,6 +36,7 @@ d_mir <- density(mir$O)
 d_blood <- density(blood$O)
 d_null <- density(blood$Null.distri)
 
+pdf(file = "figures/Figure_2A.pdf", width = 5, height = 4)
 par(mar=c(4,4,4,2))
 # Plot principal
 plot(d_metal, col = "black", lwd=2, ylim = c(0,8), xlim = c(-0.25, 0.6),
@@ -56,11 +57,12 @@ lines(d_blood, col = "black", lwd = 2, lty=3)
 
 # Legend
 legend("topright",
-       legend = c("Lipid store vs blood markers", "Lipid store vs MIR", "Lipid store vs Metallome", "Null distribution"),
+       legend = c("Lipid store vs serum markers", "Lipid store vs MIR", "Lipid store vs Metallome", "Null distribution"),
        col = c("black", "black", "black", "grey"),
        lty = c(1, 2, 3, 1), cex=0.7,
        lwd = 2,
        box.lty = 0)
+dev.off()
 
 # NEXT
 mir.1 <- cor.test.permu(meta_data[,8:17], df$`mir-serum-mean-5months.csv`)
@@ -71,9 +73,10 @@ d_mir <- density(mir.1$O)
 d_metal <- density(metal.1$O)
 d_null <- density(metal.1$Null.distri)
 
+pdf(file = "figures/Figure_2B.pdf", width = 5, height = 4)
 # Plot principal
 plot(d_mir, col = "black", lwd=2, ylim = c(0,8), xlim = c(-0.25, 0.6),
-     main = "Mantel tests between\n blood markers and other data", axes = F, cex.main = 1,
+     main = "Mantel tests between\n serum markers and other data", axes = F, cex.main = 1,
      xlab = "Distribution of Pearson'r correlation\n(999 bootstraps)")
 axis(1)
 axis(2)
@@ -88,8 +91,9 @@ polygon(d_null$x, d_null$y, col = NA, border = NA, density = 20, angle = 45)
 lines(d_null, col = "grey", lwd = 2, lty=1)
 
 legend("topright",
-       legend = c("MIR vs blood markers", "Metallome vs blood markers", "Null distribution"),
+       legend = c("MIR vs serum markers", "Metallome vs serum markers", "Null distribution"),
        col = c("black", "black", "grey"),
        lty = c(1, 2, 1), cex=0.7,
        lwd = 2,
        box.lty = 0)
+dev.off()
