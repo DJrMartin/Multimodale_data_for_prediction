@@ -123,9 +123,9 @@ for(i in 1:cv){
   # Variables selection
   Selvar <- which(apply(X_2[w,], 2, function(x) cor.test(x, Y[w], method = "pearson")$p.value) < 0.3)
   # training and testing
-  train_x <- cbind(X_1, X_2[,Selvar], X_3)[w,]
+  train_x <- data.frame(cbind(X_1, X_2[,Selvar], X_3)[w,])
   train_y = Y[w]
-  test_x <- cbind(X_1, X_2[,Selvar], X_3)[-w,]
+  test_x <- data.frame(cbind(X_1, X_2[,Selvar], X_3)[-w,])
   test_y = Y[-w]
   
   ### RF ================================
