@@ -2,23 +2,37 @@
 rm(list=ls())
 library(FactoMineR)
 
-load("data/data_preprocess/B-splines-normalisation.rda")
+load("/data/data_preprocess/B-splines-normalisation.rda")
 # load("data/data_preprocess/target_variables.rda")
 # load("data/data_preprocess/fourier-normalisation.rda")
 meta_data <- read.csv("data/raw_data/phenotype.csv", sep = ";")
 
-col.group = as.character(factor(meta_data$Group, levels(as.factor(meta_data$Group)), c("#D6DCE5", "#8497B0", "#F4B183", "#FBE5D6")))
-pch.fibrosis = as.numeric(as.character(factor(meta_data$Fibrose, c(0,1), c(16, 17))))
+col.group = as.character(factor(meta_data$Group, levels(as.factor(meta_data$Group)), c("#AFB9C8", "#8497B0", "#F4B183", "#F1CDB1")))
+pch.group = as.numeric(as.character(factor(meta_data$Group, levels(as.factor(meta_data$Group)), c(15:18))))
 
+# M vs C
 par(mar=c(4,4,4,2))
-plot(meta_data$Steatosis~meta_data$Triglycerides.Hp, col = col.group, pch = pch.fibrosis, main = "Relationship between gold standard\nand biochemical determination of steatosis",
+plot(meta_data$Fsp27~meta_data$Triglycerides.Hp, pch = pch.group,  col = col.group, main = "Relationship between cellular and tissular\nindicators of Steatosis",
+     axes = FALSE, xlim=c(0, 100), xlab = "Hepatic Trigly. (mg/g)", ylab = "Histological Steatosis (%)", cex.main=1) 
+axis(1)
+axis(2, at=seq(0,1,0.2))
+legend("topleft", legend = c("CTL", "HFHC", "IRON", "IRON+HFHC"), col = c("#AFB9C8", "#8497B0","#F1CDB1","#F4B183"), ncol=2, 
+       bty='n', cex = 0.8, pch = c(15, 16, 18, 17))
+
+# M vs T
+par(mar=c(4,4,4,2))
+plot(meta_data$Steatosis~meta_data$Triglycerides.Hp, pch = pch.group,  col = col.group, main = "Relationship between cellular and tissular\nindicators of Steatosis",
      axes = FALSE, ylim=c(0,1.2), xlim=c(0, 100), xlab = "Hepatic Trigly. (mg/g)", ylab = "Histological Steatosis (%)", cex.main=1) 
 axis(1)
 axis(2, at=seq(0,1,0.2))
-legend("topleft", legend = c("CTL", "HFHC", "IRON", "IRON+HFHC"),fill= c("#D6DCE5", "#8497B0","#FBE5D6","#F4B183"), ncol=2, 
-       bty='n', cex=0.8)
-legend("bottomright", legend = c("0", "1"), pch = c(16, 17),col = c("grey"), 
-       bty='n', cex=0.8, title="Fibrosis score")
+legend("topleft", legend = c("CTL", "HFHC", "IRON", "IRON+HFHC"), col = c("#AFB9C8", "#8497B0","#F1CDB1","#F4B183"), ncol=2, 
+       bty='n', cex = 0.8, pch = c(15, 16, 18, 17))
+
+group = factor(meta_data$Group, c("CON", "HF", "IRON", "HF+IRON"))
+boxplot(meta_data$Steatosis~group, col = c("#AFB9C8", "#8497B0","#F1CDB1","#F4B183"), 
+        xlab = "", ylab = "", axes = F)
+axis(1)
+axis(2)
 
 colnames(meta_data[, c(2,3,5,11,12,18,23)])
 res.pca <- PCA(meta_data[, c(2,3,5,18,23)], quali.sup = c(1,3), graph=T)
