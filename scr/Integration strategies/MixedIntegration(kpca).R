@@ -35,7 +35,7 @@ rownames(X_1) <- rownames(X_2) <- rownames(X_3) <- common_names
 
 ### TEST with MIR and Blood markers.
 rmse.MixedK = c()
-cv = 40
+cv = 30
 k = 50
 set.seed(SEED)
 for (cv in 1:cv){

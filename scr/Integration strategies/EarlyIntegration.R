@@ -25,7 +25,7 @@ Y = Y[w]
 X_1 = X_1[w,] ; X_2 = X_2[w,] ; X_3 = X_3[w,]
 
 SEED = 123
-cv = 40
+cv = 30
 ############### STRATEGY 2 ###############################################################################################
 # Boosting with XtgradientBoosting
 # $max_depth = 2 ; $eta = 0.001 ; $nthread = 2 ; $objective = "reg:linear" ; $validate_parameters = TRUE

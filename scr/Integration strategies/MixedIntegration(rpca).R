@@ -36,7 +36,7 @@ rownames(X_1) <- rownames(X_2) <- rownames(X_3) <- common_names
 
 ### TEST with MIR and Blood markers.
 rmse.MixedR = c()
-cv = 40
+cv = 30
 set.seed(SEED)
 for (cv in 1:cv){
   intraining = createDataPartition(y, p = 0.7, list = FALSE)
