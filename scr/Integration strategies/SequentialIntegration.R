@@ -39,11 +39,11 @@ res.D = boosting_rf_cv(response = Y, p = 0.70, datasets = list(X_1, X_2, X_3), f
 res.D.order = boosting_rf_cv(response = Y, p = 0.70, datasets = list(X_1, X_3, X_2), folds = cv, Selection = c(1, 1, 0.3),
                              ntree = ntree, maxnodes = c(5, 5, 25), mtry = c(3, 3, 150), seed = SEED)
 
-rmse.blood.MIR <- res.A
-rmse.blood.trace <- res.B
-rmse.trace.MIR <- res.C
-rmse.blood.MIR.trace <- res.D
-rmse.blood.trace.MIR <- res.D.order
+rmse.blood.MIR <- res.A$rmse_per_fold
+rmse.blood.trace <- res.B$rmse_per_fold
+rmse.trace.MIR <- res.C$rmse_per_fold
+rmse.blood.MIR.trace <- res.D$rmse_per_fold
+rmse.blood.trace.MIR <- res.D.order$rmse_per_fold
 
 save(rmse.blood.MIR, rmse.blood.trace, rmse.trace.MIR, rmse.blood.MIR.trace, rmse.blood.trace.MIR, 
      file="data/results/SequentialIntegration.rda")

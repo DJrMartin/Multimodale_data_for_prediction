@@ -2,6 +2,9 @@
 
 This repository provides a comprehensive collection of multi-omics datasets---including metallomics, Raman spectroscopy, and mid-infrared (MIR) spectroscopy---acquired from a murine experiment, involving 100 mice divided into four experimental groups. This study aim to induce hepatic steatosis, fibrosis, and inflammation. These pathological states were then assessed through various omics-based analytical techniques.
 
+![Aperçu du projet](figures/pdf/Graphical_abstract.pdf)
+
+
 ## Installation
 
 git clone <https://github.com/ton-nom-utilisateur/NomDuProjet.git>
@@ -59,7 +62,7 @@ This repository is made available under the [MIT License](LICENSE).
 
 If you use this resource in your research, please cite it as:
 
-> [Martin D. et al.] *Multi-omics spectral datasets in a murine model of liver dysfunctions*. GitHub Repository, [2025].
+> [Martin D. et al.] *Sequential integration of multimodal data from serum improves the predictive performance of hepatic lipid accumulation in mice.*. GitHub Repository, [2025].
 
 ## Contact
 
