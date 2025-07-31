@@ -2,12 +2,11 @@
 
 This repository provides a comprehensive collection of multi-omics datasets---including metallomics, Raman spectroscopy, and mid-infrared (MIR) spectroscopy---acquired from a murine experiment, involving 100 mice divided into four experimental groups. This study aim to induce hepatic steatosis, fibrosis, and inflammation. These pathological states were then assessed through various omics-based analytical techniques.
 
-![Aperçu du projet](figures/pdf/Graphical_abstract.pdf)
-
+![**Graphical Abstract. Overview of multimodal data integration strategies for steatosis prediction.** Biochemical, mid-infrared (MIR), and metallomic serum data were used to predict steatosis using three distinct methods. Common approaches to multi-omics integration include: Early Integration, which concatenates datasets; Mixed Integration, which reduces complexity through independent transformations; and Late Integration, which combines predictions from separate models. In this study, we propose a new strategy called sequential integration, in which each model is based on the results of the previous one. Predictive performance was evaluated using the Root Mean Square Error (RMSE). Among the tested strategies, mixed integration yielded the lowest performance, whereas sequential integration achieved the highest accuracy.](figures/Graphical_abstract.jpg)
 
 ## Installation
 
-git clone <https://github.com/ton-nom-utilisateur/NomDuProjet.git>
+git clone <https://github.com/DJrMartin/Multimodale_data_for_prediction.git>
 
 Developed in **R**. Required packages:
 
@@ -62,7 +61,7 @@ This repository is made available under the [MIT License](LICENSE).
 
 If you use this resource in your research, please cite it as:
 
-> [Martin D. et al.] *Sequential integration of multimodal data from serum improves the predictive performance of hepatic lipid accumulation in mice.*. GitHub Repository, [2025].
+> [Martin D. et al.] *Sequential integration of multimodal data from serum improves the predictive performance of hepatic lipid accumulation in mice.* <https://github.com/DJrMartin/Multimodale_data_for_prediction.git>, [2025].
 
 ## Contact
 

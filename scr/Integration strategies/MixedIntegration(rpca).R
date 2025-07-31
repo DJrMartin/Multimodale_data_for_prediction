@@ -25,6 +25,8 @@ w = which(is.na(apply(cbind(X_1, X_2, X_3),1,sum)) == FALSE)
 y = Y[w]
 X_1 = data.frame(X_1[w,]) ; X_2 = data.frame(X_2[w,]) ; X_3 = data.frame(X_3[w,])
 
+SEED = 123
+
 # Nombre d’échantillons
 n_samples <- nrow(X_1)
 
@@ -34,7 +36,8 @@ rownames(X_1) <- rownames(X_2) <- rownames(X_3) <- common_names
 
 ### TEST with MIR and Blood markers.
 rmse.MixedR = c()
-cv = 30
+cv = 40
+set.seed(SEED)
 for (cv in 1:cv){
   intraining = createDataPartition(y, p = 0.7, list = FALSE)
   

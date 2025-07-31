@@ -8,8 +8,7 @@ meta_data = read.csv("data/raw_data/phenotype.csv", sep = ";", header=T)
 dir("data/data_preprocess")
 load("data/data_preprocess/B-splines-normalisation.rda")
 
-SEED = 12
-cv = 30
+
 ## TEST d'un boosting entre frotti et serum =========================
 # Combinaison of blood markers, serum, and metallomic for steatosis.
 # Combinaison of serum, and frotti for inflammation.
@@ -25,6 +24,8 @@ w = which(is.na(apply(cbind(X_1, X_2, X_3),1,sum)) == FALSE)
 Y = Y[w]
 X_1 = X_1[w,] ; X_2 = X_2[w,] ; X_3 = X_3[w,]
 
+SEED = 123
+cv = 40
 ntree = rep(1500, 3)
 source("functions/boosting_RF_custom.R")
 

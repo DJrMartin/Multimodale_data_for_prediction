@@ -24,8 +24,8 @@ w = which(is.na(apply(cbind(X_1, X_2, X_3),1,sum)) == FALSE)
 Y = Y[w]
 X_1 = X_1[w,] ; X_2 = X_2[w,] ; X_3 = X_3[w,]
 
-SEED = 12
-cv = 30
+SEED = 123
+cv = 40
 ############### STRATEGY 2 ###############################################################################################
 # Boosting with XtgradientBoosting
 # $max_depth = 2 ; $eta = 0.001 ; $nthread = 2 ; $objective = "reg:linear" ; $validate_parameters = TRUE
