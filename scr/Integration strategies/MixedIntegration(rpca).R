@@ -76,4 +76,4 @@ for (cv in 1:cv){
 }
 
 # boxplot(rmse.MixedR, rmse.MixedK)
-save(rmse.MixedR, rmse.MixedK, file = 'data/res_ML.rda')
+save(rmse.MixedR, rmse.MixedK, file = 'data/results/MixedIntegration.rda')
