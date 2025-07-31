@@ -8,7 +8,7 @@ meta_data = read.csv("data/raw_data/phenotype.csv", sep = ";", header=T)
 dir("data/data_preprocess")
 load("data/data_preprocess/B-splines-normalisation.rda")
 
-
+SEED = 12
 ## TEST d'un boosting entre frotti et serum =========================
 # Combinaison of blood markers, serum, and metallomic for steatosis.
 # Combinaison of serum, and frotti for inflammation.

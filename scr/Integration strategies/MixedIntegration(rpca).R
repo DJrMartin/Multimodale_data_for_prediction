@@ -33,12 +33,9 @@ common_names <- paste0("Sample_", 1:n_samples)
 rownames(X_1) <- rownames(X_2) <- rownames(X_3) <- common_names
 
 ### TEST with MIR and Blood markers.
-rmse = c()
+rmse.MixedR = c()
 cv = 30
-k = 50
-
 for (cv in 1:cv){
-  
   intraining = createDataPartition(y, p = 0.7, list = FALSE)
   
   # Variables selections of the MIR.
@@ -47,35 +44,33 @@ for (cv in 1:cv){
   X_2.train = X_2[intraining,SelRF]
   X_2.test = X_2[-intraining,SelRF]
   
-  # Kernel PCA
-  kpca1 <- kpca(~.,X_1[intraining,], 
-                kernel = "rbfdot",
-                kpar = list(sigma = 1e-4),
-                features = 10, th = 1e-4) 
-  kpca2 <- kpca(~.,X_2.train, 
-                kernel = "rbfdot",
-                kpar = list(sigma = 100),
-                features = 10, th = 1e-4) 
-  kpca3 <- kpca(~.,X_3[intraining,], 
-                kernel = "rbfdot",
-                kpar = list(sigma = 0.1),
-                features = 10, th = 1e-4) 
+  # Robust PCA
+  rpca1 <- rospca(X_1[intraining,], k = 10) 
+  rpca2 <- rospca(X_2.train, k = 10)
+  rpca3 <- rospca(X_3[intraining,], k = 10) 
   
-  res.kpca1 = pcv(kpca1)
-  res.kpca2 = pcv(kpca2)
-  res.kpca3 = pcv(kpca3)
-  kpca.train = cbind(res.kpca1,res.kpca2)#,res.kpca3)
+  # Score of the train set
+  res.rpca1 = rpca1$scores
+  res.rpca2 = rpca2$scores
+  res.rpca3 = rpca3$scores
+  rpca.train = data.frame(res.rpca1, res.rpca2, res.rpca3)
   
-  res.kpca1_test = predict(kpca1, X_1[-intraining,])
-  res.kpca2_test = predict(kpca2, X_2.test)
-  kpca.test = cbind(res.kpca1_test,res.kpca2_test)#,res.kpca2_test)
+  # Score projection of the test set
+  res.rpca1_test = as.matrix(X_1[-intraining,]) %*% rpca1$loadings
+  res.rpca2_test = as.matrix(X_2.test) %*% rpca2$loadings
+  res.rpca3_test = as.matrix(X_3[-intraining,]) %*% rpca3$loadings
+  rpca.test = data.frame(res.rpca1_test, res.rpca2_test, res.rpca3_test)
   
   ## Algorithm RF
-  rf <- randomForest(y[intraining]~., kpca.train)
+  rf <- randomForest(y[intraining]~., rpca.train)
+  ## Prediction
+  y_pred <- predict(rf, rpca.test)
   
-  y_pred <- predict(rf, kpca.test)
-  rmse <- c(rmse, sqrt(mean((y_pred-y[-intraining])^2)))
-  
+  # Compute the RMSE.
+  rmse.MixedR <- c(rmse.MixedR, sqrt(mean((y_pred-y[-intraining])^2)))
+  print(cv)
+
 }
 
-boxplot(rmse)
+boxplot(rmse.MixedR, rmse.MixedK)
+# save(rmse.MixedR, rmse.MixedK, file = 'data/res_ML.rda')

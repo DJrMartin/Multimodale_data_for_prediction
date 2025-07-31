@@ -33,7 +33,7 @@ common_names <- paste0("Sample_", 1:n_samples)
 rownames(X_1) <- rownames(X_2) <- rownames(X_3) <- common_names
 
 ### TEST with MIR and Blood markers.
-rmse = c()
+rmse.MixedK = c()
 cv = 30
 k = 50
 
@@ -64,18 +64,20 @@ for (cv in 1:cv){
   res.kpca1 = pcv(kpca1)
   res.kpca2 = pcv(kpca2)
   res.kpca3 = pcv(kpca3)
-  kpca.train = cbind(res.kpca1,res.kpca2)#,res.kpca3)
+  kpca.train = cbind(res.kpca1,res.kpca2,res.kpca3)
   
   res.kpca1_test = predict(kpca1, X_1[-intraining,])
   res.kpca2_test = predict(kpca2, X_2.test)
-  kpca.test = cbind(res.kpca1_test,res.kpca2_test)#,res.kpca2_test)
+  res.kpca3_test = predict(kpca3, X_3[-intraining,])
+  kpca.test = cbind(res.kpca1_test,res.kpca2_test, res.kpca3_test)
   
   ## Algorithm RF
   rf <- randomForest(y[intraining]~., kpca.train)
   
   y_pred <- predict(rf, kpca.test)
-  rmse <- c(rmse, sqrt(mean((y_pred-y[-intraining])^2)))
-
+  rmse.MixedK <- c(rmse.MixedK, sqrt(mean((y_pred-y[-intraining])^2)))
+  
+  print(cv)
 }
 
-boxplot(rmse)
+boxplot(rmse.MixedK)

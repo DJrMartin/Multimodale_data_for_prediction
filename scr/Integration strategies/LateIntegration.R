@@ -25,52 +25,53 @@ Y = Y[w]
 X_1 = X_1[w,] ; X_2 = X_2[w,] ; X_3 = X_3[w,]
 
 ############### STRATEGY 1 ###############################################################################################
-SEED = 123
+SEED = 12
 cv = 30
+
 ### permu H0
 set.seed(SEED)
-RMSE0 = c()
+rmse.H0 = c()
 for(i in 1:cv){
   train <- createDataPartition(Y, p=0.70, list=F)
   rf <- randomForest(sample(Y[train])~., X_1[train,], ntree = 1000, mtry=3, maxnodes = 10)
-  RMSE0 = c(RMSE0, sqrt(mean((predict(rf, X_1[-train,])-Y[-train])^2)))
+  rmse.H0 = c(rmse.H0, sqrt(mean((predict(rf, X_1[-train,])-Y[-train])^2)))
 }
 ### Serum markers
 set.seed(SEED)
-RMSE1 = c()
+rmse.blood = c()
 for(i in 1:cv){
   train <- createDataPartition(Y, p=0.70, list=F)
   rf <- randomForest(Y[train]~., X_1[train,], ntree = 1500, mtry = 5, maxnodes = 5)
-  RMSE1 = c(RMSE1, sqrt(mean((predict(rf, X_1[-train,])-Y[-train])^2)))
+  rmse.blood = c(rmse.blood, sqrt(mean((predict(rf, X_1[-train,])-Y[-train])^2)))
 }
 # MIR
-set.seed(SEED)
-RMSE2 = c()
-for(i in 1:cv){
-  train <- createDataPartition(Y, p=0.70, list=F)
-  rf <- randomForest(Y[train]~., X_2[train,], ntree = 1500, mtry=150, maxnodes = 25)
-  RMSE2 = c(RMSE2, sqrt(mean((predict(rf, X_2[-train,])-Y[-train])^2)))
-}
+# set.seed(SEED)
+# rmse.MIR = c()
+# for(i in 1:cv){
+#   train <- createDataPartition(Y, p=0.70, list=F)
+#   rf <- randomForest(Y[train]~., X_2[train,], ntree = 1500, mtry=150, maxnodes = 25)
+#   rmse.MIR = c(rmse.MIR, sqrt(mean((predict(rf, X_2[-train,])-Y[-train])^2)))
+# }
 # MIR_with_preselection
 set.seed(SEED)
-RMSE2.2 = all.Sel_RF = c()
+rmse.MIR = c()
 for(i in 1:cv){
   train <- createDataPartition(Y, p=0.70, list=F)
   SelRF <- which(apply(X_2[train,], 2, function(x) cor.test(x, Y[train], method = "pearson")$p.value) < 0.3)
   rf <- randomForest(Y[train]~., X_2[train,SelRF], ntree = 1500, mtry = 150, maxnodes = 25)
-  RMSE2.2 = c(RMSE2.2, sqrt(mean((predict(rf, X_2[-train,SelRF])-Y[-train])^2)))
+  rmse.MIR = c(rmse.MIR, sqrt(mean((predict(rf, X_2[-train,SelRF])-Y[-train])^2)))
 }
 # Metallome
 set.seed(SEED)
-RMSE3 = c()
+rmse.trace = c()
 for(i in 1:cv){
   train <- createDataPartition(Y, p=0.70, list=F)
   rf <- randomForest(Y[train]~., X_3[train,], ntree = 1500, mtry = 3, maxnodes = 5)
-  RMSE3 = c(RMSE3, sqrt(mean((predict(rf, X_3[-train,])-Y[-train])^2)))
+  rmse.trace = c(rmse.trace, sqrt(mean((predict(rf, X_3[-train,])-Y[-train])^2)))
 }
 # Modèles mutlimodales
 set.seed(SEED)
-RMSE_all = c()
+rmse.Late = c()
 for(i in 1:cv){
   train <- createDataPartition(Y, p=0.70, list=F)
   # multi_models
@@ -86,5 +87,7 @@ for(i in 1:cv){
   # plot(model_integration$fitted.values, Y[train])
   Y_pred <- predict(model_integration, df[-train,])
   
-  RMSE_all = c(RMSE_all, sqrt(mean((Y_pred-Y[-train])^2)))
+  rmse.Late = c(rmse.Late, sqrt(mean((Y_pred-Y[-train])^2)))
 }
+
+save(rmse.H0, rmse.blood, rmse.MIR, rmse.trace, rmse.Late, file="data/results/LateIntegration.rda")

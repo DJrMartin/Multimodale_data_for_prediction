@@ -24,13 +24,17 @@ w = which(is.na(apply(cbind(X_1, X_2, X_3),1,sum)) == FALSE)
 Y = Y[w]
 X_1 = X_1[w,] ; X_2 = X_2[w,] ; X_3 = X_3[w,]
 
+SEED = 12
+cv = 30
 ############### STRATEGY 2 ###############################################################################################
 # Boosting with XtgradientBoosting
 # $max_depth = 2 ; $eta = 0.001 ; $nthread = 2 ; $objective = "reg:linear" ; $validate_parameters = TRUE
 library(xgboost)
 # Gradient boosting with multimodal data
+
 set.seed(SEED)
-pred = y_test = RMSE4 = c()
+rmse.Early.XtremGB = c()
+
 for(i in 1:cv){
   w <- createDataPartition(Y, p=0.70, list=F)
   
@@ -53,16 +57,20 @@ for(i in 1:cv){
                     nround = 10000, objective = "reg:linear", 
                     early_stopping_rounds = 50, verbose=0)
   
+  # Compute prdiction
   y_hat_valid = predict(model, dtest)
-  
+  # Compute RMSE
   test_mse = mean(((y_hat_valid - test_y)^2))
   test_rmse = sqrt(test_mse)
-  RMSE4 = c(RMSE4, test_rmse)
+  
+  rmse.Early.XtremGB = c(rmse.Early.XtremGB, test_rmse)
+  print(cv)
 }
 
 # Random forest with multimodal data
 set.seed(SEED)
-pred = y_test = RMSE5 = c()
+rmse.Early.RF = c()
+
 for(i in 1:cv){
   # Creation of the partition data
   w <- createDataPartition(Y, p=0.70, list=F)
@@ -81,5 +89,11 @@ for(i in 1:cv){
   
   test_mse = mean(((y_hat_valid - test_y)^2))
   test_rmse = sqrt(test_mse)
-  RMSE5 = c(RMSE5, test_rmse)
+  
+  rmse.Early.RF = c(rmse.Early.RF, test_rmse)
+  
+  print(cv)
 }
+
+save(rmse.Early.XtremGB, rmse.Early.RF, file="data/results/EarlyIntegration.rda")
+
