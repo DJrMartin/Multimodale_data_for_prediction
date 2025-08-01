@@ -21,9 +21,9 @@ install.packages(c("stringr" , "FactoMineR" , "prospectr", "fda", "randomForest"
 A total of 100 mice were distributed across four experimental groups:
 
 -   **Control (CTL)** -- standard diet
--   **High-Fat Diet (HF)** -- to induce metabolic stress
--   **Iron dextran (Iron)** -- to induce hepatic iron overload
--   **Iron + High-Fat diet (Iron-HF)** -- combined model of metabolic and iron-induced liver injury
+-   **High-Fat, High Carbohydrate Diet (HFHC)** -- to induce metabolic stress
+-   **Iron-dextran (IRON)** -- to induce hepatic iron overload
+-   **Iron + High-Fat, High Carbohydrate Diet (IRON+HFHC)** -- combined model of metabolic and iron-induced liver injury
 
 The primary objective was to develop a robust preclinical model of liver dysfunction and to monitor dysfunction progression over time using complementary -omics approaches.
 
