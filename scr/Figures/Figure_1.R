@@ -15,7 +15,7 @@ pdf(file = "figures/Figures_1A-C.pdf", width = 8, height = 4)
 layout(matrix(c(1:3), nrow = 1))
 # Tissular (A)
 group = factor(meta_data$Group, c("CON", "HF", "IRON", "HF+IRON"))
-boxplot(meta_data$Steatosis~group, col = c("#AFB9C8", "#8497B0","#F1CDB1","#F4B183"), main = 'Tissular scale',
+boxplot(meta_data$Steatosis~group, col = c("#AFB9C8", "#8497B0", "#F1CDB1", "#F4B183"),
         xlab = "", ylab = "Hepatic histological steatosis (%)", axes = F, ylim = c(0,1.2))
 legend("topleft", legend = c("CTL", "HFHC", "IRON", "IRON+HFHC"), fill = c("#AFB9C8", "#8497B0","#F1CDB1","#F4B183"), ncol=2, 
        bty='n', cex = 0.8)
@@ -23,17 +23,17 @@ axis(2, at = seq(0, 1, by = 0.2))
 text(c(2,4), y = c(1.05), c("a", "b"))
 # Cellular (B)
 group = factor(meta_data$Group, c("CON", "HF", "IRON", "HF+IRON"))
-boxplot(meta_data$Triglycerides.Hp~group, col = c("#AFB9C8", "#8497B0","#F1CDB1","#F4B183"), main = 'Cellular scale',
+boxplot(meta_data$Triglycerides.Hp~group, col = c("#AFB9C8", "#8497B0", "#F1CDB1", "#F4B183"),
         xlab = "", ylab = "Hepatic triglycerides (mg/g)", axes = F, ylim = c(0,120))
-legend("topleft", legend = c("CTL", "HFHC", "IRON", "IRON+HFHC"), fill = c("#AFB9C8", "#8497B0","#F1CDB1","#F4B183"), ncol=2, 
+legend("topleft", legend = c("CTL", "HFHC", "IRON", "IRON+HFHC"), fill = c("#AFB9C8", "#8497B0", "#F1CDB1", "#F4B183"), ncol=2, 
        bty='n', cex = 0.8)
 axis(2)
 text(c(2,4), y = c(100), c("a", "b"))
 # Molecular (C)
 group = factor(meta_data$Group, c("CON", "HF", "IRON", "HF+IRON"))
-boxplot(meta_data$Fsp27~group, col = c("#AFB9C8", "#8497B0","#F1CDB1","#F4B183"), main = 'Molecular scale',
+boxplot(meta_data$Fsp27~group, col = c("#AFB9C8", "#8497B0", "#F1CDB1", "#F4B183"),
         xlab = "", ylab = "mRNA level of Fsp27 (CT)", axes = F, ylim = c(-10,3))
-legend("topleft", legend = c("CTL", "HFHC", "IRON", "IRON+HFHC"), fill = c("#AFB9C8", "#8497B0","#F1CDB1","#F4B183"), ncol=2, 
+legend("topleft", legend = c("CTL", "HFHC", "IRON", "IRON+HFHC"), fill = c("#AFB9C8", "#8497B0", "#F1CDB1", "#F4B183"), ncol=2, 
        bty='n', cex = 0.8)
 axis(2)
 text(c(2,4), y = c(1,1), c("a", "b"))

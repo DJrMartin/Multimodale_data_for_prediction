@@ -27,7 +27,7 @@ resume_stats <- df.explore %>%
   pivot_longer(cols = -Group, names_to = "Variable", values_to = "Valeur") %>%
   group_by(Group, Variable) %>%
   summarise(
-    Moyenne = mean(Valeur, na.rm = TRUE),
+    Mean = mean(Valeur, na.rm = TRUE),
     SD = sd(Valeur, na.rm = TRUE),
     .groups = "drop"
   )

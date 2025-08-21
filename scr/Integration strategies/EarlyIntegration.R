@@ -34,11 +34,12 @@ library(xgboost)
 
 set.seed(SEED)
 rmse.Early.XtremGB = c()
+importance = c()
 
 for(i in 1:cv){
   w <- createDataPartition(Y, p=0.70, list=F)
   
-  Selvar <- which(apply(X_2[w,], 2, function(x) cor.test(x, Y[w], method = "pearson")$p.value) < 0.3)
+  Selvar <- which(apply(X_2[w,], 2, function(x) cor.test(x, Y[w], method = "pearson")$p.value) < 1)
   
   train_x <- cbind(X_1, X_2[,Selvar], X_3)[w,]
   train_y = Y[w]
@@ -57,6 +58,8 @@ for(i in 1:cv){
                     nround = 10000, objective = "reg:linear", 
                     early_stopping_rounds = 50, verbose=0)
   
+  importance <- cbind(importance, xgb.importance(model = model))
+  
   # Compute prdiction
   y_hat_valid = predict(model, dtest)
   # Compute RMSE
@@ -66,6 +69,8 @@ for(i in 1:cv){
   rmse.Early.XtremGB = c(rmse.Early.XtremGB, test_rmse)
   print(cv)
 }
+
+data.frame(xgb.importance(model = model)[order(xgb.importance(model = model)$Gain, decreasing = T),1])$Feature[1:12]
 
 # Random forest with multimodal data
 set.seed(SEED)
